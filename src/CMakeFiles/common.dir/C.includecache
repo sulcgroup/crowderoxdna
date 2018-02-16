@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/petr/workspace/oxdna-code/oxDNA/src/Utilities/time_scales/time_scales.c
+time_scales.h
+/home/petr/workspace/oxdna-code/oxDNA/src/Utilities/time_scales/time_scales.h
+
+/home/petr/workspace/oxdna-code/oxDNA/src/Utilities/time_scales/time_scales.h
+stdio.h
+-
+stdlib.h
+-
+math.h
+-
+stdio.h
+-
+

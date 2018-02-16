@@ -1,0 +1,12 @@
+/home/petr/workspace/oxdna-code/oxDNA/CMakeFiles/edit_cache.dir
+/home/petr/workspace/oxdna-code/oxDNA/CMakeFiles/rebuild_cache.dir
+/home/petr/workspace/oxdna-code/oxDNA/CMakeFiles/test_run.dir
+/home/petr/workspace/oxdna-code/oxDNA/CMakeFiles/test_quick.dir
+/home/petr/workspace/oxdna-code/oxDNA/CMakeFiles/docs.dir
+/home/petr/workspace/oxdna-code/oxDNA/CMakeFiles/test_scientific.dir
+/home/petr/workspace/oxdna-code/oxDNA/src/CMakeFiles/rebuild_cache.dir
+/home/petr/workspace/oxdna-code/oxDNA/src/CMakeFiles/edit_cache.dir
+/home/petr/workspace/oxdna-code/oxDNA/src/CMakeFiles/oxDNA.dir
+/home/petr/workspace/oxdna-code/oxDNA/src/CMakeFiles/confGenerator.dir
+/home/petr/workspace/oxdna-code/oxDNA/src/CMakeFiles/DNAnalysis.dir
+/home/petr/workspace/oxdna-code/oxDNA/src/CMakeFiles/common.dir

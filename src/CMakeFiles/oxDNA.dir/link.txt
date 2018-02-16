@@ -1,0 +1,1 @@
+/usr/bin/c++   -O3 -DNDEBUG   CMakeFiles/oxDNA.dir/oxDNA.cpp.o  -o ../bin/oxDNA -rdynamic libcommon.a -ldl 
