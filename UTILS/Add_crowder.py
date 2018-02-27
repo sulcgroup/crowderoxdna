@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 try:
     import numpy as np
 except:
@@ -17,7 +18,7 @@ def Add_crowder2Conf(conf_file = 'prova.conf',crowder_number = 10,crowder_size =
     conflines = conf.readlines()
     boxsize = float(conflines[1].split()[2])
 
-    a1_vector = [0.0, 0.0, 1.0]
+    a1_vector = [0.0, 1.0, 0.0]
     a3_vector = [0.0, 0.0, 1.0]
     velocity = [0.0, 0.0, 0.0]
     angle_momuntum = [0.0, 0.0, 0.0]
@@ -78,7 +79,11 @@ def AddCrowder2top(top_file = 'prova.conf',crowder_number = 10):
         print "%s not found" % top_file
 
     toplines = top.readlines()
-
+    
+    N = int(toplines[0].split()[0]) + crowder_number
+    N_strands = int(toplines[0].split()[1]) + crowder_number
+    toplines[0] = str(N)+' '+str(N_strands)+'\n'
+   
     strand_index = []
 
     for i in range(1, len(toplines)):
@@ -114,7 +119,8 @@ def main():
         conf_filename = sys.argv[3]
         top_filename = sys.argv[4]
     except:
-        base.Logger.die("Usage: %s <%s> <%s> <%s> <%s>" % (sys.argv[0],"crowder_num","crowder_size" "conf_filename", "top_filename"))
+
+        base.Logger.die("Usage: %s %s %s %s %s" % (sys.argv[0],"crowder_num","crowder_size", "conf_filename", "top_filename"))
         sys.exit(1)
 
     Add_crowder2Conf(conf_filename,crowder_number,crowder_size)
