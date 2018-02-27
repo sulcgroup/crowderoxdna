@@ -13,6 +13,7 @@
 #include "../Interactions/RNAInteraction2.h"
 #include "../Interactions/DNA2Interaction.h"
 
+
 template<typename number> VMMC_CPUBackend<number>::VMMC_CPUBackend() : MC_CPUBackend<number>() {
 	//_op = NULL;
 	_have_us = false;
@@ -188,7 +189,7 @@ void VMMC_CPUBackend<number>::get_settings(input_file & inp) {
 
 	std::string inter ("");
 	if(getInputString(&inp, "interaction_type", inter, 0) == KEY_FOUND) {
-		if(strncmp(inter.c_str(),"DNA2",512) != 0 && strncmp(inter.c_str(),"DNA2_nomesh",512) != 0 && strncmp(inter.c_str(),"RNA2",512) != 0 &&  strncmp(inter.c_str(), "DNA", 512) != 0 && strncmp(inter.c_str(), "DNA_nomesh", 512) != 0 && strncmp(inter.c_str(), "RNA", 512) != 0) throw oxDNAException("VMMC can be used only with DNA, DNA_nomesh, DNA2, DNA2_nomesh and RNA interactions");
+		if(strncmp(inter.c_str(),"DNA2",512) != 0 && strncmp(inter.c_str(),"CrowderDNA2",512) != 0 && strncmp(inter.c_str(),"DNA2_nomesh",512) != 0 && strncmp(inter.c_str(),"RNA2",512) != 0 &&  strncmp(inter.c_str(), "DNA", 512) != 0 && strncmp(inter.c_str(), "DNA_nomesh", 512) != 0 && strncmp(inter.c_str(), "RNA", 512) != 0) throw oxDNAException("VMMC can be used only with DNA, DNA_nomesh, DNA2, DNA2_nomesh and RNA interactions");
 	}
 
 	if (getInputInt(&inp, "maxclust", &tmpi, 0) == KEY_FOUND) {
