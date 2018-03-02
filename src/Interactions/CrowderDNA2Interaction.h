@@ -78,7 +78,39 @@ protected:
       	return R *(4.0f *  POW6(R) -7.0f * POW6(sigma)  ) /(3.0f * (POW6(R) -2.0f *  POW6(sigma) ));
     }
 
-    bool _check_repulsion_smoothness(number sigma,number rstar, number b, number rc) { /*TODO IMPLEMENT ME*/  return false;};
+    bool _check_repulsion_smoothness(number sigma,number rstar, number b, number rc)
+    {
+    /*TODO IMPLEMENT ME NICER!*/
+    	return true;
+     // printf
+     //  printf("checking for %f\n",rstar);
+      double tolerance = 0.2;
+      LR_vector<number> rr(0,0,rstar-0.2);
+      LR_vector<number> forcer(0,0,0);
+      number old_energy =  this->_crowder_repulsive_lj(rr,forcer, 1.,sigma, rstar,  b, rc, true);
+      number oldforce = forcer.norm();
+      for (double x = rstar-0.2; x < rc+0.01; x += 0.0001)
+      {
+    	LR_vector<number> r(0,0,x);
+    	LR_vector<number> force(0,0,0);
+    	number energy_new = this->_crowder_repulsive_lj(r,force, 1.,sigma, rstar,  b, rc, true) ;
+        number force_new = force.norm();
+        //printf("#### %f %f %f \n",x,energy_new,force_new);
+        //if( fabs(old_energy - energy_new) > tolerance || fabs(force_new - oldforce) > tolerance || old_energy < energy_new)
+        if(  old_energy < energy_new || oldforce < force_new)
+        {
+        	throw oxDNAException("Non-monotonous change in the repulsion potential for distance  r = %f",x);
+        	return false;
+        }
+        else
+        {
+        	old_energy = energy_new;
+        	oldforce = force_new;
+        }
+      }
+    return true;};
+
+
     bool _crowder_present(BaseParticle<number> *p, BaseParticle<number> *q);
 
 public:
