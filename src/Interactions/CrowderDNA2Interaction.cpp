@@ -152,7 +152,7 @@ number CrowderDNA2Interaction<number>::_crowder_DNA_exc_volume(BaseParticle<numb
 
 	 number energy = this->_crowder_repulsive_lj(r_to_back, force, this->_stiffness,this->_c_back_sigma, this->_c_back_rstar,this->_c_back_b,this->_c_back_rc, update_forces);
 	 if (update_forces) {
-		    torquenuc  -= p->int_centers[DNANucleotide<number>::BACK].cross(force);
+		    torquenuc  -= nuc->int_centers[DNANucleotide<number>::BACK].cross(force);
 	 		nuc->force -= force;
 		 	crowder->force += force;
 	 }
@@ -163,8 +163,9 @@ number CrowderDNA2Interaction<number>::_crowder_DNA_exc_volume(BaseParticle<numb
 	 if(update_forces) {
 
 		    torquenuc  -= nuc->int_centers[DNANucleotide<number>::BASE].cross(force);
-		    nuc->torque -= nuc->orientationT * torquenuc;
+		    nuc->torque += nuc->orientationT * torquenuc;
 
+		    //crowder->torque -= crowder->orientationT * torquenuc;
 	 		nuc->force -= force;
 	 		crowder->force += force;
 	 }
