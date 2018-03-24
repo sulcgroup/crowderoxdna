@@ -23,10 +23,21 @@ CrowderDNA2Interaction<number>::CrowderDNA2Interaction() : DNA2Interaction<numbe
 
 }
 
+
+
+template<typename number>
+bool CrowderDNA2Interaction<number>::_is_crowder(BaseParticle<number> *p)
+{
+ 	if (p->btype == CROWDERTYPE) // || q->type == CROWDERTYPE)
+  		return true;
+  	else
+  		return false;
+}
+
 template<typename number>
 bool CrowderDNA2Interaction<number>::_crowder_present(BaseParticle<number> *p, BaseParticle<number> *q)
 {
- 	if (p->type == CROWDERTYPE || q->type == CROWDERTYPE)
+ 	if (this->_is_crowder(p) || this->_is_crowder(q))
   		return true;
   	else
   		return false;
@@ -64,13 +75,15 @@ number CrowderDNA2Interaction<number>::_stacking(BaseParticle<number> *p, BasePa
 template<typename number>
 number CrowderDNA2Interaction<number>::_nonbonded_excluded_volume(BaseParticle<number> *p, BaseParticle<number> *q, LR_vector<number> *r, bool update_forces)
 {
+	  //printf(" I call the function NONBONDED on %d %d %d %d \n",p->index, q->index, p->type,q->type);
+	  //fflush(stdout);
 	  if (! this->_crowder_present(p,q))
 	  {
 		  return this->DNA2Interaction<number>::_nonbonded_excluded_volume(p,q,r,update_forces);
 	  }
 	  else
 	  {
-		  if(p->type == CROWDERTYPE && q->type == CROWDERTYPE)
+		  if( this->_is_crowder(p) && this->_is_crowder(q))
 		  {
 			  return this->_crowder_crowder_exc_volume(p,q,r,update_forces);
 		  }
@@ -86,7 +99,8 @@ number CrowderDNA2Interaction<number>::_nonbonded_excluded_volume(BaseParticle<n
 template<typename number>
 number CrowderDNA2Interaction<number>::_crowder_crowder_exc_volume(BaseParticle<number> *p, BaseParticle<number> *q, LR_vector<number> *r, bool update_forces)
 {
-	 if( !(p->type == CROWDERTYPE && q->type == CROWDERTYPE) )
+	// printf(" I call the function CROWDER CROWDER\n");
+	 if( !( this->_is_crowder(p) && this->_is_crowder(q)   ) )
      {
 	   return 0.f;
 	 }
@@ -100,26 +114,27 @@ number CrowderDNA2Interaction<number>::_crowder_crowder_exc_volume(BaseParticle<
 	 		q->force += force;
 	 }
 
-	 	return energy;
+	 return energy;
 }
 
 
 template<typename number>
 number CrowderDNA2Interaction<number>::_crowder_DNA_exc_volume(BaseParticle<number> *p, BaseParticle<number> *q, LR_vector<number> *r, bool update_forces)
 {
+	 //printf("Calling crodwer DNA on %d %d \n",p->index,q->index);
 	 BaseParticle<number> *crowder;
 	 BaseParticle<number> *nuc;
 
 	 LR_vector<number> force(0, 0, 0);
      LR_vector<number> rcenter = *r;
 
-	 if( p->type != CROWDERTYPE && q->type == CROWDERTYPE )
+	 if( !this->_is_crowder(p) && this->_is_crowder(q) )
      {
 		 //rcenter = -rcenter;
 		 crowder = q;
 		 nuc = p;
 	 }
-	 else if (p->type == CROWDERTYPE && q->type != CROWDERTYPE)
+	 else if (this->_is_crowder(p) && !this->_is_crowder(q) )
 	 {
 		 rcenter = -rcenter;
 		 crowder = p;
@@ -354,6 +369,7 @@ template<typename number>
 void CrowderDNA2Interaction<number>::read_topology(int N_from_conf, int *N_strands, BaseParticle<number> **particles) {
 	//IBaseInteraction<number>::read_topology(N_from_conf, N_strands, particles);
 
+
 	//*N_strands = N;
 	this->allocate_particles(particles, N_from_conf);
 	for (int i = 0; i < N_from_conf; i ++) {
@@ -382,7 +398,9 @@ void CrowderDNA2Interaction<number>::read_topology(int N_from_conf, int *N_stran
 		if(i == N_from_conf) throw oxDNAException("Too many particles found in the topology file (should be %d), aborting", N_from_conf);
 
 		int tmpn3, tmpn5;
+
 		int res = sscanf(line, "%d %s %d %d", &strand, base, &tmpn3, &tmpn5);
+
 
 		if(res < 4) throw oxDNAException("Line %d of the topology file has an invalid syntax", i+2);
 
@@ -397,10 +415,11 @@ void CrowderDNA2Interaction<number>::read_topology(int N_from_conf, int *N_stran
 		// for a design inconsistency, in the topology file
 		// strand ids start from 1, not from 0
 
-		if(strand < 0) //this is a crowder particle
+		if(atoi(base) == -1) //this is a crowder particle
 		{
-		  p->strand_id = strand;
-		  p->type = CROWDERTYPE;
+		  //printf("I loaded a crowder! \n");
+		  p->strand_id = strand -1;
+		  p->type = 0;
 		  p->btype = CROWDERTYPE;
 		}
 		else  //this is a regular DNA particle

@@ -83,7 +83,7 @@ protected:
     /*TODO IMPLEMENT ME NICER!*/
     	return true;
      // printf
-     //  printf("checking for %f\n",rstar);
+     // printf("##### STARTING checking for %f\n",rstar);
       double tolerance = 0.2;
       LR_vector<number> rr(0,0,rstar-0.2);
       LR_vector<number> forcer(0,0,0);
@@ -112,6 +112,7 @@ protected:
 
 
     bool _crowder_present(BaseParticle<number> *p, BaseParticle<number> *q);
+    bool _is_crowder(BaseParticle<number> *p);
 
 public:
 
