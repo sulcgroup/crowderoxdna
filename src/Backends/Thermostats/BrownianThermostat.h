@@ -22,7 +22,11 @@ class BrownianThermostat : public BaseThermostat<number> {
 protected:
 	int _newtonian_steps;
 	number _pt, _pr, _dt;
+
+	number _pt_crowder;
+
 	number _diff_coeff;
+	number _diff_coeff_crowder;
 	number _rescale_factor;
 public:
 	BrownianThermostat ();

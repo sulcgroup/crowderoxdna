@@ -7,11 +7,13 @@
 
 #include "BrownianThermostat.h"
 #include "../../Utilities/Utils.h"
+#include "../../Particles/CrowderParticle.h"
 
 template<typename number>
 BrownianThermostat<number>::BrownianThermostat () : BaseThermostat<number>(){
 	_newtonian_steps = 0;
 	_pt = (number) 0.f;
+	_pt_crowder = (number) 0.f;
 	_pr = (number) 0.f;
 	_dt = (number) 0.f;
 	_diff_coeff = (number) 0.f;
@@ -37,6 +39,17 @@ void BrownianThermostat<number>::get_settings (input_file &inp) {
 	else _pt = (number) tmp_pt;
 	getInputFloat(&inp, "dt", &tmp_dt, 1);
 	_dt = (number) tmp_dt;
+	if(getInputFloat(&inp, "diff_coeff_crowder", &tmp_diff_coeff, 0) == KEY_NOT_FOUND)
+	{
+		_diff_coeff_crowder = _diff_coeff;
+		OX_LOG(Logger::LOG_INFO,"No crowder diffusion coefficient specified, using the same as for DNA: %g", _diff_coeff_crowder);
+		//throw oxDNAException ("diff_coeff_crowder must be specified for the John thermostat");
+	}
+	else
+	{
+		_diff_coeff_crowder = (number)tmp_diff_coeff;
+		OX_LOG(Logger::LOG_INFO,"Crowder diffusion coefficient specified: %g", _diff_coeff_crowder);
+	}
 }
 
 template<typename number>
@@ -51,6 +64,9 @@ void BrownianThermostat<number>::init(int N_part) {
 
 	// assuming mass and inertia moment == 1.
 	_rescale_factor = sqrt(this->_T);
+
+	_pt_crowder = (2 * this->_T *  _newtonian_steps * _dt)/(this->_T * _newtonian_steps * _dt + 2 * _diff_coeff_crowder);
+	if(_pt_crowder >= (number) 1.) throw oxDNAException ("pt_crowder (%f) must be smaller than 1", _pt_crowder);
 }
 
 template<typename number>
@@ -59,11 +75,21 @@ void BrownianThermostat<number>::apply (BaseParticle<number> **particles, llint 
 
 	for(int i = 0; i < this->_N_part; i++) {
 		BaseParticle<number> *p = particles[i];
-		if(drand48() < _pt) {
-			p->vel = LR_vector<number>(Utils::gaussian<number>(), Utils::gaussian<number>(), Utils::gaussian<number>()) * _rescale_factor;
+		if(p->btype == CROWDERTYPE)
+		{
+			if(drand48() < _pt_crowder) {
+						p->vel = LR_vector<number>(Utils::gaussian<number>(), Utils::gaussian<number>(), Utils::gaussian<number>()) * _rescale_factor;
+			}
+
 		}
-		if(drand48() < _pr) {
-			p->L = LR_vector<number>(Utils::gaussian<number>(), Utils::gaussian<number>(), Utils::gaussian<number>()) * _rescale_factor;
+		else
+		{
+			if(drand48() < _pt) {
+				p->vel = LR_vector<number>(Utils::gaussian<number>(), Utils::gaussian<number>(), Utils::gaussian<number>()) * _rescale_factor;
+			}
+			if(drand48() < _pr) {
+				p->L = LR_vector<number>(Utils::gaussian<number>(), Utils::gaussian<number>(), Utils::gaussian<number>()) * _rescale_factor;
+			}
 		}
 	}
 }
