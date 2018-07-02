@@ -39,6 +39,8 @@ public:
 	int next_particle;
 	int strand_id;
 	int N_int_centers;
+	number mass;
+	number mass_inverted;
 
 	BaseParticle();
 	virtual ~BaseParticle();

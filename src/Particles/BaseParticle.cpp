@@ -23,6 +23,9 @@ BaseParticle<number>::BaseParticle() : N_ext_forces(0), index(-1), type(P_INVALI
 	torque = LR_vector<number>(0., 0., 0.);
 	int_centers = NULL;
 	btype = 0;
+	mass = 1.0f;
+	mass_inverted = 1.0f;
+
 }
 
 template<typename number>

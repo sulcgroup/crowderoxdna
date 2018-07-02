@@ -50,6 +50,13 @@ void BrownianThermostat<number>::get_settings (input_file &inp) {
 		_diff_coeff_crowder = (number)tmp_diff_coeff;
 		OX_LOG(Logger::LOG_INFO,"Crowder diffusion coefficient specified: %g", _diff_coeff_crowder);
 	}
+
+
+	_crowder_mass = 1.0;
+	getInputNumber(&inp, "crowder_mass", &_crowder_mass, 0);
+
+
+
 }
 
 template<typename number>
@@ -65,8 +72,11 @@ void BrownianThermostat<number>::init(int N_part) {
 	// assuming mass and inertia moment == 1.
 	_rescale_factor = sqrt(this->_T);
 
-	_pt_crowder = (2 * this->_T *  _newtonian_steps * _dt)/(this->_T * _newtonian_steps * _dt + 2 * _diff_coeff_crowder);
+	_rescale_factor_crowder = sqrt(this->_T/this->_crowder_mass);
+
+	_pt_crowder = (2 * (this->_T/_crowder_mass )*  _newtonian_steps * _dt)/( (this->_T/_crowder_mass) * _newtonian_steps * _dt + 2 * _diff_coeff_crowder);
 	if(_pt_crowder >= (number) 1.) throw oxDNAException ("pt_crowder (%f) must be smaller than 1", _pt_crowder);
+
 }
 
 template<typename number>
@@ -77,9 +87,16 @@ void BrownianThermostat<number>::apply (BaseParticle<number> **particles, llint 
 		BaseParticle<number> *p = particles[i];
 		if(p->btype == CROWDERTYPE)
 		{
+			//printf("For particle %d using %f \n",i,_pt_crowder);
 			if(drand48() < _pt_crowder) {
-						p->vel = LR_vector<number>(Utils::gaussian<number>(), Utils::gaussian<number>(), Utils::gaussian<number>()) * _rescale_factor;
+						p->vel = LR_vector<number>(Utils::gaussian<number>(), Utils::gaussian<number>(), Utils::gaussian<number>()) * (_rescale_factor_crowder );
 			}
+
+
+			if(drand48() < _pr) {
+				p->L = LR_vector<number>(Utils::gaussian<number>(), Utils::gaussian<number>(), Utils::gaussian<number>()) * _rescale_factor;
+			}
+
 
 		}
 		else

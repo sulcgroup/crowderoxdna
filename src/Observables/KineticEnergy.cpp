@@ -22,7 +22,7 @@ number KineticEnergy<number>::get_kinetic_energy() {
 	number K = (number) 0.f;
 	for(int i = 0; i < *this->_config_info.N; i++) {
 		BaseParticle<number> *p = this->_config_info.particles[i];
-		if(p->is_rigid_body()) K += (p->vel.norm() + p->L.norm()) * (number) 0.5f;
+		if(p->is_rigid_body()) K += (p->mass * p->vel.norm() + p->L.norm()) * (number) 0.5f;
 		else K += p->vel.norm() * (number) 0.5f;
 	}
 	K /= *this->_config_info.N;

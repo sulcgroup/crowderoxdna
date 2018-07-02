@@ -109,18 +109,20 @@ void MDBackend<number>::_generate_vel() {
 	for(int i = 0; i < this->_N; i++) {
 		BaseParticle<number> *p = this->_particles[i];
 
-		p->vel.x = Utils::gaussian<number>() * rescale_factor;
-		p->vel.y = Utils::gaussian<number>() * rescale_factor;
-		p->vel.z = Utils::gaussian<number>() * rescale_factor;
+		number rescale_factor_m = sqrt(this->_T/p->mass);
+                //printf("MAss of %d if %f %f\n",i,p->mass);
+		p->vel.x = Utils::gaussian<number>() * rescale_factor_m;
+		p->vel.y = Utils::gaussian<number>() * rescale_factor_m;
+		p->vel.z = Utils::gaussian<number>() * rescale_factor_m;
 
 		p->L.x = Utils::gaussian<number>() * rescale_factor;
 		p->L.y = Utils::gaussian<number>() * rescale_factor;
 		p->L.z = Utils::gaussian<number>() * rescale_factor;
 
-		initial_K += (p->vel.norm() + p->L.norm()) * 0.5;
+		initial_K += (p->mass * p->vel.norm() + p->L.norm()) * 0.5;
 	}
 
-	OX_LOG(Logger::LOG_INFO, "Initial kinetic energy: %f", initial_K);
+	OX_LOG(Logger::LOG_INFO, "Initial kinetic energy: %f", initial_K/this->_N);
 }
 
 template<typename number>

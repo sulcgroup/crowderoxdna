@@ -28,7 +28,7 @@ void MD_CPUBackend<number>::_first_step(llint cur_step) {
 	for(int i = 0; i < this->_N; i++) {
 		BaseParticle<number> *p = this->_particles[i];
 
-		p->vel += p->force * this->_dt * (number) 0.5;
+		p->vel += p->force * (this->_dt * (number) 0.5f * (p->mass_inverted));
 		LR_vector<number> dr = p->vel * this->_dt;
 		if(dr.norm() > 0.01) {
 			is_warning = true;
@@ -97,10 +97,10 @@ void MD_CPUBackend<number>::_second_step() {
 	for(int i = 0; i < this->_N; i++) {
 		BaseParticle<number> *p = this->_particles[i];
 
-		p->vel += p->force * this->_dt * (number) 0.5f;
+		p->vel += p->force * (this->_dt * (number) 0.5f * (p->mass_inverted));
 		if(p->is_rigid_body()) p->L += p->torque * this->_dt * (number) 0.5f;
 
-		this->_K += (p->vel.norm() + p->L.norm()) * (number) 0.5f;
+		this->_K += ( (p->mass) * p->vel.norm() + p->L.norm()) * ( (number) 0.5f   ) ;
 	}
 }
 

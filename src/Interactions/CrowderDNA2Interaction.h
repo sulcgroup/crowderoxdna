@@ -37,6 +37,7 @@ class CrowderDNA2Interaction: public DNA2Interaction<number> {
 protected:
     number _crowder_radius; //crowder particle radius
     number _stiffness; // stiffness of the crowder-crowder repulsion
+    number _crowder_mass; //mass of the crowder, 1.0 default
 
     number _cc_sigma;
     number _cc_rstar;

@@ -300,6 +300,15 @@ void CrowderDNA2Interaction<number>::get_settings(input_file &inp) {
 	getInputNumber(&inp, "crowder_radius", &_crowder_radius, 1);
 	OX_LOG(Logger::LOG_INFO,"Using crowder radius %g", _crowder_radius);
 
+	_crowder_mass = 1.0;
+	getInputNumber(&inp, "crowder_mass", &_crowder_mass, 0);
+	OX_LOG(Logger::LOG_INFO,"Using crowder mass %g", _crowder_mass);
+
+	if(_crowder_mass == 0)
+	{
+		throw oxDNAException("Encountered 0 mass for crowder mass, exiting!");
+	}
+
 	_stiffness = 1.0f;
 	if( getInputNumber(&inp, "crowder_stiffness", &_stiffness, 0) == KEY_FOUND )
 	{
@@ -422,6 +431,8 @@ void CrowderDNA2Interaction<number>::read_topology(int N_from_conf, int *N_stran
 		  p->strand_id = strand -1;
 		  p->type = 0;
 		  p->btype = CROWDERTYPE;
+		  p->mass = _crowder_mass;
+		  p->mass_inverted = 1.0/_crowder_mass;
 		}
 		else  //this is a regular DNA particle
 		{

@@ -24,10 +24,12 @@ protected:
 	number _pt, _pr, _dt;
 
 	number _pt_crowder;
+	number _crowder_mass;
 
 	number _diff_coeff;
 	number _diff_coeff_crowder;
 	number _rescale_factor;
+	number _rescale_factor_crowder;
 public:
 	BrownianThermostat ();
 	virtual ~BrownianThermostat ();
