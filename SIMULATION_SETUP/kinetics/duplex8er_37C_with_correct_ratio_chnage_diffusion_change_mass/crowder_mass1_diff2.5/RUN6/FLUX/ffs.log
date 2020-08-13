@@ -1,0 +1,27 @@
+Main: COMMAND: /Users/fanhong/GitHub/crowderoxdna/src/bin/oxDNA input print_energy_every=1e5 print_conf_every=1e6 no_stdout_energy=1 refresh_velocity=0 restart_step_counter=0 
+Main: STARTING new shooting for 30
+Main: Starting processes...
+Timer started at Wed Apr 18 18:59:16 2018
+Main: waiting for processes to finish
+Worker 1: reached Q_{-2}...
+Worker 2: reached Q_{-2}...
+Worker 3: reached Q_{-2}...
+Worker 0: reached Q_{-2}...
+Worker 0: reached lambda_{-1} going forwards
+Worker 0: crossed interface lambda_{-1} going backwards
+Worker 0: reached lambda_{-1} going forwards
+Worker 0: crossed interface lambda_{-1} going backwards
+Worker 3: reached lambda_{-1} going forwards
+Worker 3: crossed interface lambda_{-1} going backwards
+Worker 0: reached lambda_{-1} going forwards
+Worker 0: crossed interface lambda_{-1} going backwards
+Worker 0: reached lambda_{-1} going forwards
+Worker 0: crossed interface lambda_{-1} going backwards
+Worker 1: reached lambda_{-1} going forwards
+Worker 1: crossed interface lambda_{-1} going backwards
+Worker 1: reached lambda_{-1} going forwards
+Worker 1: crossed interface lambda_{-1} going backwards
+Worker 1: reached lambda_{-1} going forwards
+Worker 1: crossed interface lambda_{-1} going backwards
+Worker 1: reached lambda_{-1} going forwards
+Worker 1: crossed interface lambda_{-1} going backwards

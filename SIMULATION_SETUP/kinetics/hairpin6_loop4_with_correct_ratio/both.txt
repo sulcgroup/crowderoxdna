@@ -1,0 +1,7 @@
+action = stop_or
+condition1 = {
+dist1 < 1.0
+}
+condition2 = {
+dist1 > 4.0
+}

@@ -1,0 +1,2 @@
+Main: COMMAND: /home/fhong5/crowderoxDNA/src/bin/oxDNA input print_energy_every=1e5 print_conf_every=1e6 no_stdout_energy=1 refresh_velocity=0 restart_step_counter=0 
+the input file provided (flux_initial.dat) does not exist. Aborting

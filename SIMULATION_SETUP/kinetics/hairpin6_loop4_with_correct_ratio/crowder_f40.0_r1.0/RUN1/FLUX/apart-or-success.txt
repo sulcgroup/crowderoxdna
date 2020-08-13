@@ -1,0 +1,6 @@
+condition1 = {
+dist1 > 4.0
+}
+condition2 = {
+bond1 >= 1.0
+}

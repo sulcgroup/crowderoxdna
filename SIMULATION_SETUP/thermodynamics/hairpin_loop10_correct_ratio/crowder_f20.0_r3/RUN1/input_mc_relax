@@ -1,0 +1,50 @@
+####  PROGRAM PARAMETERS  ####
+backend = CPU
+backend_precision = double
+#seed = 18112
+
+####    SIM PARAMETERS    ####
+sim_type = MC
+ensemble = NVT
+steps = 1e4
+
+interaction_type = CrowderDNA2
+
+#interaction_type = DNA2_relax
+#relax_type = harmonic_force
+crowder_radius = 3
+list_type = cells
+salt_concentration = 1.
+delta_translation = 0.22
+delta_rotation = 0.22
+T = 50C
+verlet_skin = 1.0 
+umbrella_sampling = 1
+op_file = op.txt
+weights_file = wfile.txt
+extrapolate_hist = 40C,42C,44C,46C,48C,50C,52C,54C,56C,58C
+maxclust = 16
+### Seq. Dependence ##########
+use_average_seq = 1
+small_system = 0
+####    INPUT / OUTPUT    ####
+topology = prova_crowder.top
+conf_file = ini_crowder.dat 
+trajectory_file = trajectory.dat
+no_stdout_energy = 0
+restart_step_counter = 1
+energy_file = energy.dat
+print_conf_interval = 1e2
+print_energy_every = 1e2
+time_scale = linear
+#external_forces = 1
+#external_forces_file = ext.dat
+equilibration_steps = 1000
+data_output_1 = {
+name = last_conf.bin
+only_last = yes
+print_every = 1000
+col_1 = {
+type = binary_configuration
+}
+}

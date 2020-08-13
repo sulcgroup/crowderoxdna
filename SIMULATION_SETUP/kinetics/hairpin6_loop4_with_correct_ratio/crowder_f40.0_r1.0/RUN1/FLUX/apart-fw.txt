@@ -1,0 +1,3 @@
+condition1 = {
+dist1 <= 4.0
+}

@@ -1,0 +1,21 @@
+{
+	order_parameter = mindistance
+	name = dist1
+	pair1 = 0, 21
+	pair2 = 1, 20
+	pair3 = 2, 19
+	pair4 = 3, 18
+	pair5 = 4, 17
+	pair6 = 5, 16
+}
+
+{
+	order_parameter = bond         
+	name = bond1 
+	pair1 = 0, 21
+	pair2 = 1, 20
+	pair3 = 2, 19
+	pair4 = 3, 18
+	pair5 = 4, 17
+	pair6 = 5, 16
+}
