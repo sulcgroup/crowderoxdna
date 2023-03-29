@@ -33,7 +33,7 @@
 
 #include <cmath>
 #include <strings.h>
-#include <xlocale.h>
+#include <locale.h>
 
 #include "model.h"
 #include "Utilities/Logger.h"
