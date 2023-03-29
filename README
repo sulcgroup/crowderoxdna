@@ -36,6 +36,10 @@ cd build
 cmake ..		# here you can specify additional options, see next section
 make -j4		# compile oxDNA. The -jX make option makes it compile the code in parallel by using X threads.
 
+If the following fatal error arises during compilation - xlocale.h: No such file or directory
+Edit the defs.h located in src folder as follows 
+#include <xlocale.h> to #include <locale.h>
+
 At the end of the compilation three executables (oxDNA, DNAnalysis and confGenerator) will be placed
 in the build/bin folder.
 
